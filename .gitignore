@@ -4,7 +4,7 @@ secret-dns.tf
 variables.tf
 secret-cert.tf
 manifest/*/*yaml
-*command
+**/command.sh
 provider.tf
 # Ignore placeholder values files
 modules/*/values.yaml
