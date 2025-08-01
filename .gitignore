@@ -4,10 +4,11 @@ secret-dns.tf
 variables.tf
 secret-cert.tf
 manifest/*/*yaml
+manifest/*/command
 provider.tf
 # Ignore placeholder values files
 modules/*/values.yaml
-*.json
+**/policy_docs/*.json
 # Ignore actual secrets or env files
 **/secrets.yaml
 **/*.secret.yaml
