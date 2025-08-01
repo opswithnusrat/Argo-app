@@ -1,0 +1,29 @@
+# Verify if pods are successfully deployed
+kubectl get pods -n argocd
+
+# Step 3: Setup Argo CD API & UI
+### The Argo CD API server is not exposed to an external IP. To access the API server, We need to expose the argocd-server svc. I have used the AWS Load Balancer Controller for configuring ingress
+
+## apply ingress
+kubectl apply -f ingress.yaml
+
+# This can be solved by adding the — insecure flag to true for the configmap. yaml
+```
+kubectl edit configmap argocd-cmd-params-cm -n argocd -o yaml
+
+## Add the below given aurgment in data
+data:  
+  server.insecure: "true" # <-- this line need to be added
+
+  ```
+
+  # Restart the argocd-server
+  kubectl rollout restart deployment argocd-server -n argocd
+
+  # Now the argocd API & UI are available
+  ## You can also try logging into UI (app.example.com) using the same credentials.
+
+  # simply retrieve this password using the argocd CLI
+  ```
+  kubectl get secrets argocd-initial-admin-secret -o yaml -n argocd
+  ```

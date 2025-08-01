@@ -3,7 +3,7 @@ secret-eks.tf
 secret-dns.tf
 variables.tf
 secret-cert.tf
-manifest/*
+manifest/*/*yaml
 provider.tf
 # Ignore placeholder values files
 modules/*/values.yaml

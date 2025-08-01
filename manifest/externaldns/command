@@ -1,0 +1,105 @@
+
+# all commanf
+cd /home/nusrat/terra-code/01-argo-app
+rm ~/.aws/config
+rm -rf ~/.aws/cli
+aws configure sso 
+https://d-9067575bae.awsapps.com/start/#
+us-east-1
+aws eks update-kubeconfig --region us-east-1 --name eks-cluster --profile nusrat
+----
+terraform init
+terraform plan
+terraform apply
+terraform apply -target=helm_release.externaldns
+---
+
+export ARGO_PWD=`kubectl -n argocd get secret argocd-initial-admin-secret -o
+jsonpath="{.data.password}" | base64 -d`
+-----
+kubectl apply -f manifest/secrets
+kubectl apply -f manifest/externaldns
+kubectl apply -f manifest/cert-manager
+kubectl get secret app-k8s-secret -o yaml
+
+# ---- * alb controller ---- * ----- * ----
+---
+kubectl get all -n kube-system
+kubectl logs -n kube-system deploy/aws-load-balancer-controller
+kubectl get ingressclass
+
+# ---- * ingress controller ---- * ----- * ----
+# just controller deploy with annotation create nlb dns
+
+kubectl get deployment -n nginx
+kubectl logs deploy/nginx-ingress-ingress-nginx-controller -n ingress
+kubectl get ingressclass
+
+# ----- * external-dns & cert manager Install * ----- * -------
+---
+kubectl get all -n kube-system
+kubectl logs -n kube-system deploy/external-dns
+kubectl logs external-dns-9f85d8d5b-sx5f pod
+---
+
+kubectl get crds
+kubectl get all -n cert-manager 
+kubectl get secret -n cert-manager
+---
+# ---- sample application/argocd deployment --- * -----
+---
+kubectl create namespace nginx
+kubectl apply -f manifest/externaldns/nginx-deployment.yaml
+kubectl apply -f manifest/externaldns/nginx-service.yaml
+---
+kubectl get all -n argocd
+kubectl get svc -n argocd
+kubectl get secret -n argocd
+kubectl get pods -o wide -n argocd
+kubectl logs -n argocd deploy/argocd-server
+---
+kubectl apply -f manifest/argocd/ingress.yaml
+kubectl get ingress -A
+kubectl get ingress -n argocd
+kubectl get secret -n argocd
+kubectl describe ingress argocd -n argocd
+# ------ external dns with argocd & ingress ---- * -------
+----
+kubectl apply -f manifest/argocd/ingress-externaldns.yaml
+kubectl get ingress -A
+
+---
+# curl -i http://<ALB-DNS-NAME>
+---
+#curl -1 http:// argo.sand1.dev.inneedcloud.com.bd
+curl -i --header "Host: argo.sand1.dev.inneedcloud.com.bd"  k8s-argocd-argocdse-080bd77868-d3f7679696d1deec.elb.us-east-1.amazonaws.com
+---
+# ---- * argocd ssl clusterissuer/Ingress * ---- * ---- * 
+
+kubectl apply -f manifest/argocd/clusterissuer.yaml
+kubectl get clusterissuer -A
+kubectl describe clusterissuer letsencrypt-prod
+---
+kubectl apply -f manifest/argocd/ingress.yaml
+kubectl get ingress -n argocd
+kubectl describe ingress argocd-server -n argocd
+
+# --- Cert manager ssl certificate ---- * --------
+
+kubectl get certificate -A
+kubectl describe certificate nginx-tls -n argocd
+kubectl describe certificateRequest -n argocd
+kubectl describe Order -n argocd
+kubectl describe Chellenge -n argocd
+kubectl get secret -A |grep nginx-tls
+
+
+# #########################
+# ---- delete helm releace -----
+---
+kubectl delete namespace argocd
+terraform destroy -target=helm_release.externaldns
+terraform destroy -target=helm_release.cert-manager
+----
+
+
