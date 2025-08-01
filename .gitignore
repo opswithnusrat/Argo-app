@@ -1,0 +1,35 @@
+secret.tf
+secret-eks.tf
+secret-dns.tf
+variables.tf
+secret-cert.tf
+manifest/*
+provider.tf
+# Ignore placeholder values files
+modules/*/values.yaml
+*.json
+# Ignore actual secrets or env files
+**/secrets.yaml
+**/*.secret.yaml
+**/*.env
+**/*.tfvars
+!environments/dev/terraform.tfvars  # If you want to keep a specific tfvars visible
+
+# Ignore kubeconfig and generated files
+kubeconfig
+.kube/
+*.kubeconfig
+
+# Ignore local Terraform files
+.terraform/
+.terraform.lock.hcl
+terraform.tfstate
+terraform.tfstate.backup
+
+# Ignore IDE/OS-specific files
+*.swp
+*.bak
+*.log
+*.DS_Store
+.vscode/
+.idea/
