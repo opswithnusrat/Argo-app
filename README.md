@@ -11,7 +11,7 @@ This project provisions a production-grade EKS-based Kubernetes infrastructure u
 - 🌍 **ExternalDNS** for Route 53 DNS management
 - 🎯 **ArgoCD** to deploy applications using GitOps
 - 📦 **Custom Domain Support**  Route 53
-
+```
 ---
 
 
