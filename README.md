@@ -1,6 +1,4 @@
 
-
-```markdown
 # 🚀 Fully Automated Kubernetes Infrastructure on AWS with Terraform
 
 This project provisions a production-grade EKS-based Kubernetes infrastructure using Terraform. It includes automated setup for:
@@ -11,8 +9,6 @@ This project provisions a production-grade EKS-based Kubernetes infrastructure u
 - 🌍 **ExternalDNS** for Route 53 DNS management
 - 🎯 **ArgoCD** to deploy applications using GitOps
 - 📦 **Custom Domain Support**  Route 53
-```
----
 
 
 ## 🗂️ Architecture Overview
